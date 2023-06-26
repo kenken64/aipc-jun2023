@@ -175,7 +175,7 @@ terraform destroy \
 ```
 docker-machine create \
         -d digitalocean \
-        --digitalocean-access-token  dop_v1_aa38df32fc5d4b1463526e01f6df930d069687be240c65d53ea3f4ae7c8e1d81 \
+        --digitalocean-access-token  <do_pat_key> \
         --digitalocean-image ubuntu-18-04-x64  \
         --digitalocean-region sgp1 \
         --digitalocean-backups=false \
