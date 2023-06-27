@@ -1,0 +1,79 @@
+- name: Install Code server
+  hosts: all
+  vars:
+    cs_archive: https://github.com/coder/code-server/releases/download/v4.9.1/code-server-4.9.1-linux-amd64.tar.gz
+    cs_dir: /usr/local/opt
+    cs_unpacked: code-server-4.9.1-linux-amd64
+  tasks:
+  - name: Update OS
+    apt:
+      update_cache: yes
+      upgrade: yes
+
+  - name: Create directories
+    file:
+      path: "{{item}}"
+      state: directory
+      mode: '0755'
+    loop:
+    - "{{ cs_dir }}"
+    - /var/lib/code-server
+
+  - name: Check if codeserver directory exists
+    stat:
+      path: "{{ cs_dir }}/{{cs_unpacked}}"
+    register: dir
+
+  - name: Download and unarchive codeserver
+    unarchive:
+     src: "{{ cs_archive }}"
+     dest: "{{ cs_dir }}"
+     remote_src: yes
+    when: not dir.stat.exists
+
+  - name: Link directory and binary
+    file:
+      src: "{{ item.src }}"
+      dest: "{{ item.dest }}"
+      state: link
+    loop:
+    - src: "{{cs_dir}}/{{cs_unpacked}}"
+      dest: /usr/lib/code-server
+    - src: "{{cs_dir}}/{{cs_unpacked}}/bin/code-server"
+      dest: /usr/bin/code-server
+
+  - name: Generate codeserver service
+    template:
+      src: code-server.service.j2
+      dest: /lib/systemd/system/code-server.service
+
+  - name: Enable code server service
+    systemd:
+      name: code-server
+      daemon_reload: true
+      enabled : true
+      state: started
+
+- name: Install Nginx
+  hosts: all
+  tasks:
+  - name: Install nginx
+    apt:
+      name: nginx
+      state: latest
+
+  - name: Generate code-server.conf
+    template:
+      src: code-server.conf.j2
+      dest: /etc/nginx/sites-available/code-server.conf
+
+  - name: Link code-server.conf to /etc/nginx/sites-enabled
+    file:
+      src: /etc/nginx/sites-available/code-server.conf
+      dest: /etc/nginx/sites-enabled/default
+      state: link
+
+  - name: restart nginx
+    systemd:
+      name: nginx
+      state: restarted
