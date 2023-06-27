@@ -20,3 +20,8 @@ terraform plan -var "do_token=${DO_PAT}" -var "ssh_private_key=/root/.ssh/id_rsa
 ```
 terraform apply -var "do_token=${DO_PAT}" -var "ssh_private_key=/root/.ssh/id_rsa" -var "codeserver_password=password123456"
 ```
+
+
+```
+ansible-playbook playbook.yaml -i inventory.yaml
+```
