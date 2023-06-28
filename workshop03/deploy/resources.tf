@@ -18,6 +18,8 @@ resource "digitalocean_droplet" "codeserver" {
     region = var.do_region
     size = var.do_size
 
+    ssh_keys = [ data.digitalocean_ssh_key.www-1.id ] 
+
     connection {	
 	type = "ssh"
 	user = "root"
