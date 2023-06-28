@@ -29,8 +29,8 @@ resource "digitalocean_droplet" "codeserver" {
 
     provisioner remote-exec {
 	inline = [
-		"sed -i '$/__CODESERVER_PASSWORD__/${var.cs_password}' /lib/systemd/system/code-server.service",
-		"sed -i '$/__DOMAIN_NAME__/${var.cs_domain}' /etc/nginx/site-available/code-server.conf",
+		"sed -i 's/__DOMAIN_NAME__/${self.ipv4_address}-${var.cs_domain}/g' /etc/nginx/sites-available/code-server.conf",
+        	"sed -i 's/__CODESERVER_PASSWORD__/${var.cs_password}/g' /lib/systemd/system/code-server.service",
 		"systemctl daemon-reload",
 		"systemctl restart code-server",
 		"systemctl restart nginx",
