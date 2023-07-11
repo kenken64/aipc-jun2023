@@ -1,5 +1,17 @@
 ## Workshop 2 (Terraform + Ansible)
 
+```
+sudo apt-add-repository ppa:ansible/ansible
+```
+
+```
+sudo apt update
+```
+
+```
+sudo apt install ansible
+```
+
 - Provision code server using terraform 
 - Configure and setup the rest of the stuff using Ansible
 

@@ -172,17 +172,6 @@ terraform destroy \
 ## Workshop Day 1
 
 
-```
-docker-machine create \
-        -d digitalocean \
-        --digitalocean-access-token  <do_pat_key> \
-        --digitalocean-image ubuntu-18-04-x64  \
-        --digitalocean-region sgp1 \
-        --digitalocean-backups=false \
-        --engine-install-url "https://releases.rancher.com/install-docker/19.03.9.sh" \
-        docker-nginx
-```
-
 To download and install the Docker Machine binary, type:
 
 ```
@@ -203,6 +192,18 @@ sudo mv docker-machine /usr/local/bin
 Check the version, which will indicate that it’s properly installed:
 ```
 docker-machine version
+```
+
+
+```
+docker-machine create \
+        -d digitalocean \
+        --digitalocean-access-token  <do_pat_key> \
+        --digitalocean-image ubuntu-18-04-x64  \
+        --digitalocean-region sgp1 \
+        --digitalocean-backups=false \
+        --engine-install-url "https://releases.rancher.com/install-docker/19.03.9.sh" \
+        docker-nginx
 ```
 
 
