@@ -206,6 +206,7 @@ docker-machine create \
         docker-nginx
 ```
 
+https://docs.digitalocean.com/reference/terraform/getting-started/
 
 ```
 terraform plan -auto-approve -var "do_token=${DO_PAT}" -var "ssh_private_key=/root/workshop01/id_rsa" -var "docker_host=167.172.83.19" -var "docker_cert_path=/root/.docker/machine/machines/docker-nginx"
